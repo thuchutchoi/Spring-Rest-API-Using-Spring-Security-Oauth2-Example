@@ -1,4 +1,4 @@
-package com.tps.device_management.security;
+package com.tst.audittool.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

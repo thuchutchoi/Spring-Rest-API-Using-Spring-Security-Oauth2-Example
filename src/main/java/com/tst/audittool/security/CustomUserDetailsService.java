@@ -1,4 +1,4 @@
-package com.tps.device_management.security;
+package com.tst.audittool.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,31 +14,32 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tps.device_management.entities.User;
-import com.tps.device_management.services.UserService;
+import com.tst.audittool.entities.UserInfo;
+import com.tst.audittool.services.UserInfoService;
+
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
 	static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
 	@Autowired
-	private UserService userService;
+	private UserInfoService userService;
 
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userService.findByUsername(username);
+		UserInfo user = userService.findByUsername(username);
 		logger.info("User : {}", user);
 		if (user == null) {
 			throw new UsernameNotFoundException("Username not found");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true, true,
-				true, true, getGrantedAuthorities(user));
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true,
+				true, true, true, getGrantedAuthorities(user));
 	}
 
-	private List<GrantedAuthority> getGrantedAuthorities(User user) {
+	private List<GrantedAuthority> getGrantedAuthorities(UserInfo user) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getRole()));
+		authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserRole().getRoleName()));
 		logger.info("authorities : {}", authorities);
 		return authorities;
 	}

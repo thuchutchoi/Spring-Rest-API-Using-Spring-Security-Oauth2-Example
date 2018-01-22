@@ -1,4 +1,4 @@
-package com.tps.device_management.configuration;
+package com.tst.audittool.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

@@ -1,13 +1,15 @@
-package com.tps.device_management.configuration;
+package com.tst.audittool.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,8 +21,11 @@ import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
+/**
+ * @author nghia.nguyen
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -50,14 +55,6 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.anonymous().disable()
 		.authorizeRequests()
 		.antMatchers("/oauth/token").permitAll();
-		http.authorizeRequests().antMatchers("/users/**").access("hasRole('ADMIN')").antMatchers("/home")
-				.access("hasRole('ADMIN')").antMatchers("/courses/**").access("hasRole('ADMIN')")
-				.antMatchers("/course/**").access("hasRole('ADMIN')");
-
-		http.authorizeRequests().and().formLogin().loginProcessingUrl("/login").loginPage("/login")
-		.defaultSuccessUrl("/students").failureUrl("/login?fail=true").usernameParameter("username")
-				.passwordParameter("password").and().logout().logoutUrl("/logout?logout=true")
-				.logoutSuccessUrl("/login").and().exceptionHandling().accessDeniedPage("/login?permission=true");
 	}
 
 	@Override
@@ -65,13 +62,6 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-
-
-	@Bean
-	public TokenStore tokenStore() {
-		return new InMemoryTokenStore();
-	}
-
 	@Bean
 	@Autowired
 	public TokenStoreUserApprovalHandler userApprovalHandler(TokenStore tokenStore){
@@ -93,5 +83,10 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/oauth/token");
 	}
 }
