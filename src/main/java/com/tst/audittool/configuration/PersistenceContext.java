@@ -12,7 +12,7 @@
 
 Copyright © 2018 by TPS
  */
-package com.tps.device_management.configuration;
+package com.tst.audittool.configuration;
 
 import java.util.Properties;
 
@@ -36,7 +36,7 @@ import com.zaxxer.hikari.HikariDataSource;
 /**
  * @author nghiant This class using for config for layer persistence.
  */
-@EnableJpaRepositories(basePackages = { "com.tps.device_management.repositories" })
+@EnableJpaRepositories(basePackages = { "com.tst.audittool.repositories" })
 @EnableTransactionManagement
 @Configuration
 // @PropertySource("classpath:application.properties")
@@ -60,7 +60,7 @@ public class PersistenceContext {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource);
 		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-		entityManagerFactoryBean.setPackagesToScan("com.tps.device_management.entities");
+		entityManagerFactoryBean.setPackagesToScan("com.tst.audittool.entities");
 		Properties jpaProperties = new Properties();
 		// Configures the used database dialect. This allows Hibernate to create
 		// SQL

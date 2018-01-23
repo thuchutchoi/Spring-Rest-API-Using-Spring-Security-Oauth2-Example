@@ -1,4 +1,4 @@
-package com.tps.device_management.security;
+package com.tst.audittool.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tps.device_management.entities.UserInfo;
 import com.tps.device_management.services.UserInfoService;
 
+<<<<<<< HEAD:src/main/java/com/tps/device_management/security/CustomUserDetailsService.java
+=======
+import com.tst.audittool.entities.UserInfo;
+import com.tst.audittool.services.UserInfoService;
+
+>>>>>>> 1138b019bb2932d25f8072e62628b4c917506274:src/main/java/com/tst/audittool/security/CustomUserDetailsService.java
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -26,13 +32,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+<<<<<<< HEAD:src/main/java/com/tps/device_management/security/CustomUserDetailsService.java
 		UserInfo user = userService.findUserInfoByUsername(username);
+=======
+		UserInfo user = userService.findByUsername(username);
+>>>>>>> 1138b019bb2932d25f8072e62628b4c917506274:src/main/java/com/tst/audittool/security/CustomUserDetailsService.java
 		logger.info("User : {}", user);
 		if (user == null) {
 			throw new UsernameNotFoundException("Username not found");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true, true,
-				true, true, getGrantedAuthorities(user));
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true,
+				true, true, true, getGrantedAuthorities(user));
 	}
 
 	private List<GrantedAuthority> getGrantedAuthorities(UserInfo user) {
