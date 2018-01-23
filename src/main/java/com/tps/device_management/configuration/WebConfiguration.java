@@ -13,17 +13,6 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.tps.device_management")
 public class WebConfiguration extends WebMvcConfigurerAdapter {
-	// @Bean
-	// public ViewResolver viewResolver() {
-	// InternalResourceViewResolver viewResolver = new
-	// InternalResourceViewResolver();
-	// viewResolver.setViewClass(JstlView.class);
-	// viewResolver.setPrefix("/WEB-INF/views/");
-	// viewResolver.setSuffix(".jsp");
-	//
-	// return viewResolver;
-	// }
-
 	/**
 	 * Configure ViewResolvers to deliver preferred views.
 	 */
